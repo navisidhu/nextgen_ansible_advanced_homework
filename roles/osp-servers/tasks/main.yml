@@ -3,7 +3,7 @@
 - name: Debug
   debug:
     var: item
-  loop: "{{ osp_servers | dict2items }}"
+  loop: "{{ osp_servers | dict2items | attr('value') }}"
 
 # - name: Provision the servers
 #   os_server:
