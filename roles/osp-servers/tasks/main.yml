@@ -20,6 +20,11 @@
   loop: "{{ osp_servers | dict2items }}"
   register: server_instances
 
+- name: Debug server instances
+  debug:
+    msg: ">> {{ item.item.instance_name }}"
+  loop: "{{ server_instances.results }}"
+
 - name: Add floating IP
   os_floating_ip:
     cloud: "{{ openstack_cloud | default('openstack') }}"
