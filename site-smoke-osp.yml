@@ -20,8 +20,16 @@
     tags:
       - osp.smoke
 
+  - name: Debug
+    debug:
+      var: webpage
+    when:
+      - item.metadata.group == "apps"
+
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
-    when: "'Ansible has done its job' not in webpage.results[0].content"
+    when:
+      - "'Ansible has done its job' not in webpage.results[0].content"
+      - item.metadata.group == "apps"
     tags:
       - osp.smoke
