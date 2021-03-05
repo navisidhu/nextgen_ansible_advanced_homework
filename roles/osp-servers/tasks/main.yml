@@ -7,7 +7,7 @@
     state: "{{ item.value.state | default('present') }}"
     image: "{{ item.value.image | default('rhel-7.6') }}"
     flavor: "{{ item.value.flavor | default('m2.medium') }}"
-    meta: "group={{ item.value.meta[0].group }},deployment_name={{ item.value.meta[0].deployment_name) }}"
+    meta: "group={{ item.value.meta[0].group }},deployment_name={{ item.value.meta[0].deployment_name }}"
     nics:
       - net-name: int_network
     userdata: |
