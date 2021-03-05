@@ -1,12 +1,17 @@
 - hosts: localhost
   gather_facts: false
   tasks:
+
   - name: OpenStack servers
     os_server_info:
      cloud: openstack
     register: os_servers
     tags:
       - osp.smoke
+  
+  - name: Debug
+    debug:
+      var: os_servers
 
   - name: Curl website
     uri:

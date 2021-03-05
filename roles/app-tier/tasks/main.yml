@@ -31,6 +31,7 @@
     dest: "{{ tomcat_web_root }}/index.html"
     mode: 0644
   tags:
+    - apps
     - tomcat
   notify:
     - restart_tomcat
