@@ -1,5 +1,4 @@
-- hosts: localhost
-  connection: local
+- hosts: workstation
   gather_facts: false
   tasks:
   - name: OpenStack servers
@@ -11,12 +10,11 @@
     
   - name: Curl website
     uri:
-      url: "http://{{item.public_v4}}"
+      url: "http://{{ item.public_v4 }}"
       return_content: yes
-    with_items:
+    loop:
       - "{{ os_servers.ansible_facts.openstack_servers }}"
     register: webpage
-    delegate_to: localhost
     tags:
       - osp.smoke
 
