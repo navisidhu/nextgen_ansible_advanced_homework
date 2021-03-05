@@ -8,16 +8,12 @@
     register: os_servers
     tags:
       - osp.smoke
-  
-  - name: Debug
-    debug:
-      var: os_servers
 
   - name: Curl website
     uri:
       url: "http://{{ item.public_v4 }}"
       return_content: yes
-    loop: "{{ os_servers.ansible_facts.openstack_servers }}"
+    loop: "{{ os_servers.openstack_servers }}"
     register: webpage
     tags:
       - osp.smoke
