@@ -20,17 +20,12 @@
   loop: "{{ osp_servers | dict2items }}"
   register: server_instances
 
-- name: Debug server instances
-  debug:
-    msg: ">> {{ item }}"
-  loop: "{{ server_instances.results }}"
-
 - name: Add floating IP
   os_floating_ip:
     cloud: "{{ openstack_cloud | default('openstack') }}"
     state: present
     reuse: yes
-    server: "{{ item.item.name }}"
+    server: "{{ item.server.name }}"
     network: ext_network
     wait: true
     timeout: 200
