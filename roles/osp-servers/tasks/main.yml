@@ -18,7 +18,7 @@
       cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
       cat /tmp/openstack.pem >> /home/cloud-user/.ssh/authorized_keys
       sudo curl -o /etc/yum.repos.d/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
-  loop: "{{ osp_servers | list }}"
+  loop: "{{ osp_servers | dict2items }}"
   register: server_instances
 
 - name: Add floating IP
