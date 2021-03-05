@@ -14,7 +14,7 @@
       url: "http://{{ item.public_v4 }}:8080"
       return_content: yes
     loop: "{{ os_servers.openstack_servers }}"
-    where:
+    when:
       - item.metadata.group == "apps"
     register: webpage
     tags:
