@@ -1,3 +1,33 @@
 ---
 
-# tasks file for osp.servers
+- name: Provision the servers
+  os_server:
+    cloud: "{{ openstack_cloud | default('openstack') }}"
+    name: "{{ item.name }}"
+    security_groups: "{{ item.security_group | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    image: "{{ item.image | default('rhel-7.6') }}"
+    flavor: "{{ item.flavor | default('m2.medium') }}"
+    meta: "group={{ item.meta | first | attr('group') }},deployment_name={{ item.meta | first | attr('deployment_name') }}"
+    nics:
+      - net-name: int_network
+    userdata: |
+      #!/bin/bash
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      curl -o /tmp/openstack.pem http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pem
+      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+      cat /tmp/openstack.pem >> /home/cloud-user/.ssh/authorized_keys
+      sudo curl -o /etc/yum.repos.d/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
+  loop: "{{ openstack_servers }}"
+  register: server_instances
+
+- name: Add floating IP
+  os_floating_ip:
+    cloud: "{{ openstack_cloud | default('openstack') }}"
+    state: present
+    reuse: yes
+    server: "{{ item.item.instance_name }}"
+    network: ext_network
+    wait: true
+    timeout: 200
+  loop: "{{ server_instances.results }} "

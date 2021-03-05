@@ -1,5 +1,5 @@
 ---
-# vars file for osp.servers
+openstack_cloud: openstack
 osp_servers:
   frontend:
     name: frontend
