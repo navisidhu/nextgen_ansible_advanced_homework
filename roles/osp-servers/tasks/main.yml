@@ -25,7 +25,7 @@
     cloud: "{{ openstack_cloud | default('openstack') }}"
     state: present
     reuse: yes
-    server: "{{ item.item.instance_name }}"
+    server: "{{ item.item.name }}"
     network: ext_network
     wait: true
     timeout: 200
