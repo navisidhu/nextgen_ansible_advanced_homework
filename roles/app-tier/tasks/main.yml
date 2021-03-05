@@ -1,2 +1,36 @@
 ---
 
+- name: Install Required Packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - "{{ payload }}"
+  tags:
+    - tomcat
+
+- name: Enable Required Service At Boot
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  loop:
+    - "{{ payload }}"
+  tags:
+    - tomcat
+
+- name: Create Tomcat Webroot
+  file:
+    path: "{{ tomcat_web_root }}"
+    state: directory
+  tags:
+    - tomcat
+
+- name: Copy Home Page for Tomcat to serve
+  template:
+    src: index.html.j2
+    dest: "{{ tomcat_web_root }}/index.html"
+    mode: 0644
+  tags:
+    - tomcat
+  notify:
+    - restart_tomcat
