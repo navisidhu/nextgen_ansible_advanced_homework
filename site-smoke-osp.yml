@@ -11,11 +11,12 @@
     
   - name: Curl website
     uri:
-     url: "http://{{item.public_v4}}"
-     return_content: yes
+      url: "http://{{item.public_v4}}"
+      return_content: yes
     with_items:
       - "{{ os_servers.ansible_facts.openstack_servers }}"
     register: webpage
+    delegate_to: localhost
     tags:
       - osp.smoke
 
