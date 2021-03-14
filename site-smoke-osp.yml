@@ -5,6 +5,7 @@
   - name: OpenStack servers
     os_server_info:
      cloud: openstack
+     server: frontend
     register: os_servers
     tags:
       - osp.smoke
@@ -14,8 +15,6 @@
       url: "http://{{ item.public_v4 }}"
       return_content: yes
     loop: "{{ os_servers.openstack_servers }}"
-    when:
-      - item.metadata.group == "frontends"
     register: webpage
     tags:
       - osp.smoke
