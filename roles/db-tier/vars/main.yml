@@ -6,3 +6,8 @@ postgres_packages:
   - postgresql10-contrib 
   - postgresql10-libs
 postgres_library: python-psycopg2
+postgres_10_data_dir: /var/lib/pgsql/10/data
+postgres_10_bin_path: /usr/pgsql-10/bin
+postgres_service: postgresql-10.service
+postgres_port: 5432
+postgres_user: postgres
