@@ -16,7 +16,6 @@
       curl -o /tmp/openstack.pem http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pem
       cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
       cat /tmp/openstack.pem >> /home/cloud-user/.ssh/authorized_keys
-      sudo curl -o /etc/yum.repos.d/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
   loop: "{{ osp_servers | dict2items }}"
   register: server_instances
 
@@ -30,3 +29,13 @@
     wait: true
     timeout: 200
   loop: "{{ server_instances.results }} "
+  register: instance_floating_ips
+
+- name: Verify Instance IPs
+  wait_for:
+    host: "{{ item.floating_ip.floating_ip_address }}"
+    port: 22
+    search_regex: OpenSSH
+    timeout: 600
+  loop: "{{ instance_floating_ips.results }}"
+  delegate_to: localhost
