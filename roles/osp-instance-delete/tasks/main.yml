@@ -2,14 +2,15 @@
 - name: Fetch Instance Info
   os_server_info:
     cloud: "{{ openstack_cloud | default('openstack') }}"
-    region_name: regionOne
-  register: result
+  register: instances
   tags:
     - relinquish
 
-- name: Debug Instances
-  debug:
-    var: result
-
-# - name: Delete instances
-   
+- name: Delete instances
+  os_server:
+    cloud: "{{ openstack_cloud | default('openstack') }}"
+    name: "{{ item.name }}"
+    state: absent
+  loop: "{{ instances.openstack_servers }}"
+  tags:
+    - relinquish
