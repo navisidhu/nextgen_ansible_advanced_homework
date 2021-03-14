@@ -1,4 +1,9 @@
 ---
+- name: Debug Meta
+  debug:
+    var: item.value.meta
+  loop: "{{ osp_servers | dict2items }}"
+
 - name: Provision the servers
   os_server:
     cloud: "{{ openstack_cloud | default('openstack') }}"
