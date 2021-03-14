@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: workstation
   gather_facts: false
   tasks:
 
@@ -11,11 +11,11 @@
 
   - name: Curl website
     uri:
-      url: "http://{{ item.public_v4 }}:8080"
+      url: "http://{{ item.public_v4 }}"
       return_content: yes
     loop: "{{ os_servers.openstack_servers }}"
     when:
-      - item.metadata.group == "apps"
+      - item.metadata.group == "frontends"
     register: webpage
     tags:
       - osp.smoke
