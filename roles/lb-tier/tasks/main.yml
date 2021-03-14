@@ -1,3 +1,9 @@
 ---
 
-
+- name: Install Required Packages
+  package:
+    name: "{{ payload }}"
+    state: present
+  tags:
+      - haproxy
+      - loadbalancer

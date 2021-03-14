@@ -7,6 +7,7 @@
   loop:
     - "{{ payload }}"
   tags:
+    - apps
     - tomcat
 
 - name: Enable Required Service At Boot
@@ -16,6 +17,7 @@
   loop:
     - "{{ payload }}"
   tags:
+    - apps
     - tomcat
 
 - name: Create Tomcat Webroot
@@ -23,6 +25,7 @@
     path: "{{ tomcat_web_root }}"
     state: directory
   tags:
+    - apps
     - tomcat
 
 - name: Copy Home Page for Tomcat to serve
