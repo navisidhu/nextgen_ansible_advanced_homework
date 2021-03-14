@@ -8,12 +8,29 @@
     - haproxy
     - loadbalancer
 
-- name: Configure haproxy load balancing
+- name: Configure HAProxy load balancing
   template:
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
   notify: restart_haproxy
   tags:
+    - haproxy
+    - loadbalancer
+
+- name: Get Current HAProxy Configuration
+  slurp:
+    src: /etc/haproxy/haproxy.cfg
+  register: current_config
+  tags:
+    - debug
+    - haproxy
+    - loadbalancer
+
+- name: Display Current HAProxy Configuration
+  debug:
+    var: current_config
+  tags:
+    - debug
     - haproxy
     - loadbalancer
 
