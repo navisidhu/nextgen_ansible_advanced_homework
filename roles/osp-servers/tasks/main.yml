@@ -1,9 +1,4 @@
 ---
-- name: Debug Meta
-  debug:
-    var: item.value.meta
-  loop: "{{ osp_servers | dict2items }}"
-
 - name: Provision the servers
   os_server:
     cloud: "{{ openstack_cloud | default('openstack') }}"
@@ -12,7 +7,7 @@
     state: "{{ item.value.state | default('present') }}"
     image: "{{ item.value.image | default('rhel-7.6') }}"
     flavor: "{{ item.value.flavor | default('m2.medium') }}"
-    meta: "{{ item.value.meta }}"
+    meta: "{{ item.value.meta[0] }}"
     nics:
       - net-name: int_network
     userdata: |
