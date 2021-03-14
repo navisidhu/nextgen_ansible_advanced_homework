@@ -31,10 +31,6 @@
   loop: "{{ server_instances.results }} "
   register: instance_floating_ips
 
-- name: Debug Instance IPs
-  debug:
-    var: instance_floating_ips
-
 - name: Verify Instance IPs
   wait_for:
     host: "{{ item.floating_ip.floating_ip_address }}"
