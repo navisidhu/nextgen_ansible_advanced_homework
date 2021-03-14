@@ -5,5 +5,23 @@
     name: "{{ payload }}"
     state: present
   tags:
-      - haproxy
-      - loadbalancer
+    - haproxy
+    - loadbalancer
+
+- name: Configure haproxy load balancing
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify: restart_haproxy
+  tags:
+    - haproxy
+    - loadbalancer
+
+- name: Enable HAProxy
+  service:
+    name: "{{ payload }}"
+    state: started
+    enabled: true
+  tags:
+    - haproxy
+    - loadbalancer

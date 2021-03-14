@@ -4,11 +4,6 @@
     cloud: "{{ openstack_cloud | default('openstack') }}"
   register: result
 
-- name: Display Instance Info
-  debug:
-    msg: "{{ item }}"
-  loop: "{{ result.openstack_servers }}"
-
 - name: Add host by meta data
   add_host:
     name: "{{ item.public_v4 }}"
